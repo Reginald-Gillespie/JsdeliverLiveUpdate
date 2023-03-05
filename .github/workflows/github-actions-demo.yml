@@ -8,6 +8,9 @@ jobs:
   update:
     environment: secrets
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
@@ -15,12 +18,14 @@ jobs:
           node-version: '16'
       - name: Run script
         run: node "$(pwd)/update.js"
-      - name: Create report file
-        run: date +%s > report.txt
-      - name: Commit report
-        run: |
-          git config --global user.name 'WKoA'
-          git config --global user.email 'Reginald-Gillespie@users.noreply.github.com'
-          git commit -am "Automated report"
-          git push
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Automated Change
+
+#       - name: Commit report
+#         run: |
+#           git config --global user.name 'WKoA'
+#           git config --global user.email 'Reginald-Gillespie@users.noreply.github.com'
+#           git commit -am "Automated report"
+#           git push
 
