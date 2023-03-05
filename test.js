@@ -1,1 +1,1 @@
-var price = "0";
+var price = "22423.68";
