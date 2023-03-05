@@ -2,12 +2,16 @@ name: Update Bitcoin Price
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/4 * * * *"
 
 jobs:
   update-price:
     runs-on: ubuntu-latest
     steps:
+      - name: Use Node.js 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
       - name: Checkout Repository
         uses: actions/checkout@v2
       - name: Install Dependencies
