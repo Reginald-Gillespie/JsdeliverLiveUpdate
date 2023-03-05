@@ -1,18 +1,39 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+name: Update Bitcoin Price
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+
 jobs:
-  Explore-GitHub-Actions:
+  update-price:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: npm install axios
+      - name: Update Price
         run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          const axios = require("axios");
+          const fs = require("fs");
+
+          axios
+            .get("https://api.coindesk.com/v1/bpi/currentprice.json")
+            .then((response) => {
+              const currentPrice = response.data.bpi.USD.rate;
+
+              const filePath = "./path/to/your/javascript/file.js";
+              const fileContent = fs.readFileSync(filePath, "utf-8");
+
+              const updatedContent = fileContent.replace(
+                /var price = ".*";/,
+                `var price = "${currentPrice}";`
+              );
+
+              fs.writeFileSync(filePath, updatedContent);
+            });
+      - name: Commit Changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update Bitcoin Price"
+          commit_options: "--no-gpg-sign"
