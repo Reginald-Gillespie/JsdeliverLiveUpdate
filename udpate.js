@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require("fs");
 const https = require('https');
 
 const url = 'https://api.coindesk.com/v1/bpi/currentprice.json';
