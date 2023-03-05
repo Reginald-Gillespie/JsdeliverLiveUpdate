@@ -19,4 +19,8 @@ jobs:
           git config --global user.email "reginaldgillespie@protonmail.com"
           git config --global user.name "Reginald-Gillespie"
           git commit -am "Update Bitcoin price"
-          git push
+      - name: GitHub Push
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
