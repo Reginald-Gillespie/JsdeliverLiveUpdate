@@ -22,7 +22,7 @@ jobs:
             .then((response) => {
               const currentPrice = response.data.bpi.USD.rate;
 
-              const filePath = "./path/to/your/javascript/file.js";
+              const filePath = "./test.js";
               const fileContent = fs.readFileSync(filePath, "utf-8");
 
               const updatedContent = fileContent.replace(
