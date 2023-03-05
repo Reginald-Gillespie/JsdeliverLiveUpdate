@@ -15,4 +15,4 @@ jobs:
       - name: Check Path
         run: ls
       - name: Run script
-        run: node ./update.js
+        run: node "$(pwd)/update.js"
