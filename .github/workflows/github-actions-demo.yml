@@ -2,42 +2,21 @@ name: Update Bitcoin Price
 
 on:
   schedule:
-    - cron: "*/4 * * * *"
+    - cron: '*/5 * * * *'
 
 jobs:
   update-price:
     runs-on: ubuntu-latest
     steps:
-      - name: Use Node.js 16
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install Dependencies
-        run: npm install axios
-      - name: Update Price
-        run: |
-          const axios = require("axios");
-          const fs = require("fs");
-
-          axios
-            .get("https://api.coindesk.com/v1/bpi/currentprice.json")
-            .then((response) => {
-              const currentPrice = response.data.bpi.USD.rate;
-
-              const filePath = "./test.js";
-              const fileContent = fs.readFileSync(filePath, "utf-8");
-
-              const updatedContent = fileContent.replace(
-                /var price = ".*";/,
-                `var price = "${currentPrice}";`
-              );
-
-              fs.writeFileSync(filePath, updatedContent);
-            });
+        run: npm install
+      - name: Update Bitcoin Price
+        run: node update.js
       - name: Commit Changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "Update Bitcoin Price"
-          commit_options: "--no-gpg-sign"
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git commit -am "Update Bitcoin price"
+          git push
