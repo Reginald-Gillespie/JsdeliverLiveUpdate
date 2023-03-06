@@ -22,3 +22,5 @@ https.get(url, (response) => {
 }).on('error', (err) => {
   console.log('Error: ' + err.message);
 });
+
+https.get("https://purge.jsdelivr.net/gh/Reginald-Gillespie/LiveKhanImports@main/test.js");
