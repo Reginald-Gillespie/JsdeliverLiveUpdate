@@ -21,6 +21,10 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Automated Change
+          push_options: '--force'
+          
+          
+          
 #       - uses: gacts/purge-jsdelivr-cache@v1
 #         with:
 #           url: |
